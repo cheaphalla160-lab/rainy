@@ -27,7 +27,24 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
       - name: Build
-        run: npm run build
+        run: |
+          npm run build
+          node -e '
+            const fs = require("fs");
+            const path = require("path");
+            function walk(dir) {
+              for (const f of fs.readdirSync(dir, { withFileTypes: true })) {
+                const p = path.join(dir, f.name);
+                if (f.isDirectory()) walk(p);
+                else if (/\.(js|css|html)$/.test(f.name)) {
+                  const s = fs.readFileSync(p, "utf8");
+                  const r = s.replace(/(["\x27`(])\/src\/assets\//g, "$1/rainy/src/assets/");
+                  if (s !== r) fs.writeFileSync(p, r);
+                }
+              }
+            }
+            walk("dist");
+          '
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
