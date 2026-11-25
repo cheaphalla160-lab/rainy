@@ -1,0 +1,6 @@
+{
+  "name": "Weather Park",
+  "description": "An interactive elementary English vocabulary park game for learning sunny, rainy, snowy, windy, and cloudy with audio read-aloud, cheerful music, and a class leaderboard.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
